@@ -1,9 +1,13 @@
-import { ALPHA } from './Puzzle.js';
-import { removeClass } from './utils.js';
+import Puzzle from './Puzzle.js?v=0';
+import { removeClass } from './utils.js?v=0';
 
 const tileContent = document.querySelector('#tile').innerHTML;
 
 export default class Tile {
+  static get SPECIAL() {
+    return [...Puzzle.ALPHA, '_'];
+  }
+
   #clue;
   #puzzle;
   #container;
@@ -37,7 +41,7 @@ export default class Tile {
 
   set(char) {
     const { code } = this.#clue;
-    if (!code) {
+    if (!code || (char && !Puzzle.ALPHA.includes(char))) {
       return false;
     }
     this.#puzzle.set(code, char);
@@ -49,7 +53,7 @@ export default class Tile {
     container._tile = this;
     container.classList.add('tile');
     container.innerHTML = tileContent;
-    if (this.#clue.code) {
+    if (this.#clue.isPuzzle()) {
       container.classList.add('clickable');
       container.addEventListener('click', onClick);
     }
@@ -61,7 +65,7 @@ export default class Tile {
     this.container.querySelector('.symbol').textContent = getChar(char);
     this.container.querySelector('.number').textContent = getCode(code);
 
-    this.container.classList.toggle('special', ![...ALPHA, '_'].includes(char));
+    this.container.classList.toggle('special', char.length > 1 || !Tile.SPECIAL.includes(char));
   }
 }
 
@@ -73,7 +77,7 @@ function getChar(char) {
 }
 
 function getCode(code) {
-  if (!code) {
+  if (!code || !Number.isInteger(code)) {
     return '';
   }
   if (code < 0) {

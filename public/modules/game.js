@@ -1,45 +1,31 @@
-import Puzzle from './Puzzle.js';
-import { removeClass } from './utils.js';
+import Puzzle from './Puzzle.js?v=0';
+import { removeClass } from './utils.js?v=0';
 
 /**
  * @type {HTMLDivElement}
  */
 const board = document.querySelector('#board');
+/**
+ * @type {Puzzle?}
+ */
+let current;
 
 function load(rawPuzzle = '', guesses = []) {
   // TODO: Validate puzzle? No guesses for characters in puzzle.
   const clues = rawPuzzle.split(/[\/;]/)
     .map((word) => word.split(',')
       .map((clue) => {
-        if (Number.isInteger(Number(clue))) {
-          return Number(clue);
+        const num = Number(clue);
+        if (Number.isInteger(num) && num <= 26) {
+          return num;
         }
         return clue;
       }));
 
-  const puzzle = new Puzzle(clues);
+  const puzzle = new Puzzle(clues, guesses);
   if (!puzzle.length) return;
-  const {
-    letters,
-    numbers,
-  } = puzzle;
-  guesses.forEach(([num, char]) => {
-    const number = Number(num);
-    if (
-      Number.isNaN(number) ||
-      !numbers.includes(number) ||
-      !letters.includes(char)
-    ) return;
-    puzzle.set(number, char);
-  });
 
-  setup(puzzle);
-}
-
-/**
- * @param {Puzzle} puzzle
- */
-function setup(puzzle) {
+  current = puzzle;
   // Clear board
   board.textContent = '';
 
@@ -56,19 +42,26 @@ function setup(puzzle) {
 }
 
 document.addEventListener('keydown', (event) => {
+  if (!current) return;
   const {
+    ctrlKey,
     repeat,
     shiftKey,
   } = event;
+  if (ctrlKey) return;
   const char = getChar(event);
-  if (repeat || typeof char !== 'string') return;
+  if (repeat || typeof char !== 'string' || char.length > 1) return;
 
   const set = document.querySelector('.selected')?._tile.set(char);
+  if (!set) return;
 
-  if (set && shiftKey) {
+  updateUrlParams(current.mapping());
+  if (shiftKey) {
     selectNext();
   }
 });
+
+window.addEventListener('popstate', processURL)
 
 function getChar(event) {
   const key = event.key;
@@ -119,7 +112,7 @@ function newWordGroup() {
   return group;
 }
 
-(() => {
+function processURL() {
   const {
     pathname,
     search,
@@ -131,4 +124,11 @@ function newWordGroup() {
   params.delete('puzzle');
 
   load(rawPuzzle, params.entries());
-})();
+}
+
+function updateUrlParams(search) {
+  const params = `${new URLSearchParams(search)}`
+  history.pushState(null, undefined, params ? `?${params}` : location.pathname);
+}
+
+document.addEventListener('DOMContentLoaded', processURL);

@@ -38,7 +38,11 @@ export default class Clue {
   }
 
   isSet() {
-    return this.char !== Clue.SYMBOL;
+    return this.char !== Clue.SYMBOL && this.char.length === 1;
+  }
+
+  isPuzzle() {
+    return Number.isInteger(this.code) && this.code;
   }
 
   set(symbol = '')  {
@@ -60,8 +64,8 @@ export default class Clue {
   }
 
   #set(symbol = '') {
-    if (!symbol) throw new Error();
-    if (this.char === symbol) return;
+    if (!symbol) throw new Error(symbol);
+    if (this.char === symbol || this.char.length > 1) return;
     this.#isLocked();
     this.#char = symbol;
     // Dispatch event

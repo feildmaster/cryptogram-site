@@ -1,21 +1,37 @@
-import Clue from './Clue.js';
-import Tile from './Tile.js';
+import Clue from './Clue.js?v=0';
+import Tile from './Tile.js?v=0';
 
-export const ALPHA = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 export default class Puzzle {
+  static get ALPHA() {
+    return ALPHA;
+  }
   /**
    * @type {Set<Clue>}
    */
   #clues = new Set();
 
-  constructor(clues = []) {
+  constructor(clues = [], guesses = []) {
     const last = clues.length - 1;
     clues.forEach((word = [], index) => {
       if (!word.length || word[0] === 0) return;
       word.forEach((clue) => this.#clues.add(new Clue(clue)));
       if (index === last) return;
       this.#clues.add(new Clue(' '));
+    });
+    if (!this.length) return;
+    guesses.forEach(([num, char]) => {
+      const number = Number(num);
+      if (
+        !Number.isInteger(number) ||
+        typeof char !== 'string' ||
+        !this.numbers.includes(number) || (
+          number > 0 &&
+          !this.letters.includes(char)
+        )
+      ) return;
+      this.set(number, char);
     });
   }
 
@@ -34,7 +50,7 @@ export default class Puzzle {
     const numbers = new Set([0]);
     numbers.delete(0);
     for (const clue of this.#values) {
-      if (!clue.code || clue.isSet()) continue;
+      if (clue.isSet() || !clue.isPuzzle()) continue;
       numbers.add(clue.code);
     }
     return [...numbers];
@@ -60,7 +76,7 @@ export default class Puzzle {
     if (!Number.isInteger(number)) throw new Error(number);
     if (typeof letter !== 'string') throw new Error(letter);
     if (letter && !ALPHA.includes(letter)) throw new Error(letter);
-    if (letter && number > 0 && !this.letters.includes(letter)) return;
+    if (letter && number > 0 && !this.letters.includes(letter)) return false;
     this.#values.some((clue) => {
       if (clue.code !== number) return false;
       if (!letter) {
@@ -70,11 +86,20 @@ export default class Puzzle {
       }
       return number < 0;
     });
-    // TODO: Update URL
+    return true;
   }
 
   tiles() {
     return this.#values.map(clue => new Tile(clue, this));
+  }
+
+  mapping() {
+    return this.#values.reduce((acc, clue) => {
+      if (clue.isSet() && clue.isPuzzle()) {
+        acc.set(clue.code, clue.char);
+      }
+      return acc;
+    }, new Map());
   }
 
   toString() {
