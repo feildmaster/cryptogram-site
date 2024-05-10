@@ -40,15 +40,7 @@ export default class Tile {
     if (!code) {
       return false;
     }
-    if (code > 0) {
-      // Only positive numbers can change globally
-      const puzzle = this.#puzzle;
-      if (char && !puzzle.letters.includes(char)) return false;
-      puzzle.set(code, char);
-    } else {
-      if (char && !ALPHA.includes(char)) return false;
-      this.#clue.set(char);
-    }
+    this.#puzzle.set(code, char);
     return true;
   }
 

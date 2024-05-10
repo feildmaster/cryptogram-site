@@ -5,6 +5,7 @@ export default class Clue {
   static get SYMBOL() {
     return '_';
   }
+  static #uniqueId = -1;
 
   #eventManager = document.createElement('div');
   #locked;
@@ -18,7 +19,11 @@ export default class Clue {
     } else if (typeof code === 'string') {
       if (code) this.#set(code);
     } else if (typeof code === 'number') {
-      this.#code = code;
+      if (code < 0) {
+        this.#code = Clue.#uniqueId--;
+      } else {
+        this.#code = code;
+      }
     } else {
       throw new Error(code);
     }

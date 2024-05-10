@@ -53,18 +53,21 @@ export default class Puzzle {
     return [...this.#clues.values()];
   }
 
-  set(number, letter) {
-    if (typeof number !== 'number') throw new Error(number);
+  set(number, letter = '') {
+    if (!Number.isInteger(number)) throw new Error(number);
     if (typeof letter !== 'string') throw new Error(letter);
     if (letter && !ALPHA.includes(letter)) throw new Error(letter);
-    this.#values.forEach((clue) => {
-      if (clue.code !== number) return;
+    if (letter && number > 0 && !this.letters.includes(letter)) return;
+    this.#values.some((clue) => {
+      if (clue.code !== number) return false;
       if (!letter) {
         clue.reset();
       } else {
         clue.set(letter);
       }
+      return number < 0;
     });
+    // TODO: Update URL
   }
 
   tiles() {
