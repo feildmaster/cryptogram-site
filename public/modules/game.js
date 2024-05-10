@@ -11,13 +11,14 @@ function load(rawPuzzle = '', guesses = []) {
   const clues = rawPuzzle.split(/[\/;]/)
     .map((word) => word.split(',')
       .map((clue) => {
-        if (Number.isFinite(Number(clue))) {
+        if (Number.isInteger(Number(clue))) {
           return Number(clue);
         }
         return clue;
       }));
 
   const puzzle = new Puzzle(clues);
+  if (!puzzle.length) return;
   const {
     letters,
     numbers,
