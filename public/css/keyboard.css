@@ -1,0 +1,35 @@
+.keyboard {
+  height: 200px;
+  margin: 0 auto;
+  position: sticky;
+  bottom: 0;
+  max-width: 500px;
+}
+/* Row */
+.keyboard-row {
+  display: flex;
+  width: 100%;
+  margin: 0 auto 8px;
+  touch-action: manipulation;
+}
+.keyboard button {
+  font-size: 1.25em;
+  font-weight: bold;
+  border: 0;
+  padding: 0;
+  margin: 0 6px 0 0;
+  height: 58px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #818384;
+  color: #f8f8f8;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+.keyboard button.active {
+  background-color: rgb(139, 0, 0);
+}

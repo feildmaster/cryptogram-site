@@ -88,6 +88,6 @@ function getCode(code) {
 
 function onClick() {
   if (this.classList.contains('selected')) return;
-  removeClass('selected')
+  removeClass('selected');
   this.classList.add('selected');
 }

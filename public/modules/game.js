@@ -1,5 +1,6 @@
 import Puzzle from './Puzzle.js?v=0';
 import { removeClass } from './utils.js?v=0';
+import './Keyboard.js?v=0';
 
 /**
  * @type {HTMLDivElement}
