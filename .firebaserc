@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "feildbase"
+  },
+  "targets": {
+    "feildbase": {
+      "hosting": {
+        "site": [
+          "cryptogram-game"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

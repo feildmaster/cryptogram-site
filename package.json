@@ -1,0 +1,15 @@
+{
+  "name": "cryptogram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "deploy": "firebase deploy --only hosting -m",
+    "test": "firebase hosting:channel:deploy test",
+    "start": "firebase emulators:start"
+  },
+  "keywords": [],
+  "author": "feildmaster",
+  "license": "ISC"
+}
