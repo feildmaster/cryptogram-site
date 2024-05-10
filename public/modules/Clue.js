@@ -18,7 +18,7 @@ export default class Clue {
       this.#char = code.#char;
     } else if (typeof code === 'string') {
       if (code) this.#set(code);
-    } else if (typeof code === 'number') {
+    } else if (Number.isInteger(code)) {
       if (code < 0) {
         this.#code = Clue.#uniqueId--;
       } else {

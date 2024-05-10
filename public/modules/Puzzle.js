@@ -22,7 +22,10 @@ export default class Puzzle {
   get letters() {
     const letters = new Set(ALPHA);
 
-    this.#values.forEach(({ char }) => letters.delete(char.toLowerCase()));
+    this.#values.forEach(({ char, code }) => {
+      if (!Number.isInteger(code) || code < 0) return;
+      letters.delete(char.toLowerCase());
+    });
 
     return [...letters];
   }
