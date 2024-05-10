@@ -45,6 +45,10 @@ export default class Puzzle {
     return !this.#values.some(({ char: symbol }) => symbol === Clue.SYMBOL);
   }
 
+  get length() {
+    return this.#clues.size;
+  }
+
   get #values() {
     return [...this.#clues.values()];
   }
