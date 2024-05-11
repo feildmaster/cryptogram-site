@@ -1,10 +1,10 @@
 const keys = [
   [
-    'Tab',
     ...'QWERTYUIOP'.split(''),
     'Backspace',
   ],
   [
+    'Tab',
     ...'ASDFGHJKL'.split(''),
   ],
   [

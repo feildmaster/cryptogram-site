@@ -18,6 +18,21 @@
     <!-- <script defer src="/__/firebase/10.11.1/firebase-performance-compat.js"></script> -->
     <!-- <script defer src="/__/firebase/init.js?useEmulator=true"></script> -->
 
+    <!-- <script defer src="/resources/simpletoast.js"></script> -->
+    <script>
+      window.addEventListener('error', ({ error }) => {
+        const toast = window.SimpleToast;
+        if (!toast) {
+          const div = document.createElement('div');
+          div.innerHTML = error.stack
+            .replaceAll('\n', '<br>')
+            .replaceAll(' ', '&nbsp;');
+          document.body.append(div);
+        } else {
+          toast(error.stack);
+        }
+      });
+    </script>
     <script type="module" src="/modules/game.js?v=0"></script>
 
     <link href="/css/style.css?v=0" media="screen" rel="stylesheet"/>
