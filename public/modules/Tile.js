@@ -1,5 +1,5 @@
-import Puzzle from './Puzzle.js?v=0';
-import { removeClass } from './utils.js?v=0';
+import Puzzle from './Puzzle.js?v=1';
+import { removeClass } from './utils.js?v=1';
 
 const tileContent = document.querySelector('#tile').innerHTML;
 
