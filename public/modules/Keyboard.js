@@ -1,10 +1,13 @@
 const keys = [
   [
+    ...'1234567890-'.split(''),
+  ],
+  [
     ...'QWERTYUIOP'.split(''),
     'Backspace',
   ],
   [
-    'Tab',
+    //'Tab',
     ...'ASDFGHJKL'.split(''),
   ],
   [
