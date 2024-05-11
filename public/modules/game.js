@@ -1,6 +1,6 @@
-import Puzzle from './Puzzle.js?v=1';
+import Puzzle from './Puzzle.js?v=2';
 import { removeClass } from './utils.js?v=1';
-import './Keyboard.js?v=1';
+import './Keyboard.js?v=2';
 
 /**
  * @type {HTMLDivElement}
