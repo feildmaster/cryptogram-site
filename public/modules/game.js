@@ -124,7 +124,7 @@ function processURL() {
   if (!rawPuzzle) return;
   params.delete('puzzle');
 
-  load(rawPuzzle, params.entries());
+  load(rawPuzzle, [...params.entries()]);
 }
 
 function updateUrlParams(search) {
