@@ -4,6 +4,10 @@
   position: sticky;
   bottom: 0;
   max-width: 500px;
+  background-color: var(--background);
+}
+.keyboard:not(.extended) div:first-child {
+  display: none;
 }
 /* Row */
 .keyboard-row {
@@ -32,4 +36,7 @@
 }
 .keyboard button.active {
   background-color: rgb(139, 0, 0);
+}
+.keyboard-row button:last-child {
+  margin: 0;
 }
