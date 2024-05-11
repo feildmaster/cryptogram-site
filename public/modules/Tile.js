@@ -44,8 +44,7 @@ export default class Tile {
     if (!code || (char && !Puzzle.ALPHA.includes(char))) {
       return false;
     }
-    this.#puzzle.set(code, char);
-    return true;
+    return this.#puzzle.set(code, char);
   }
 
   #reset() {

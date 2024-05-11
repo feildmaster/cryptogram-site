@@ -50,13 +50,8 @@ export default class Clue {
     if (symbol) {
       this.#set(symbol);
     } else {
-      this.reset();
+      this.#set(Clue.SYMBOL)
     }
-  }
-
-  reset() {
-    if (!this.code) return;
-    this.#set(Clue.SYMBOL)
   }
 
   onChange(listener) {

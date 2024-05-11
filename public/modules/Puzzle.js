@@ -13,12 +13,12 @@ export default class Puzzle {
   #clues = new Set();
 
   constructor(clues = [], guesses = []) {
-    const last = clues.length - 1;
     clues.forEach((word = [], index) => {
       if (!word.length || word[0] === 0) return;
+      if (index) {
+        this.#clues.add(new Clue(' '));
+      }
       word.forEach((clue) => this.#clues.add(new Clue(clue)));
-      if (index === last) return;
-      this.#clues.add(new Clue(' '));
     });
     if (!this.length) return;
     guesses.forEach(([num, char]) => {
@@ -74,18 +74,20 @@ export default class Puzzle {
 
   set(number, letter = '') {
     if (!Number.isInteger(number)) throw new Error(number);
+    if (number === 0) throw new Error(number);
     if (typeof letter !== 'string') throw new Error(letter);
-    if (letter && !ALPHA.includes(letter)) throw new Error(letter);
-    if (letter && number > 0 && !this.letters.includes(letter)) return false;
-    this.#values.some((clue) => {
-      if (clue.code !== number) return false;
-      if (!letter) {
-        clue.reset();
-      } else {
-        clue.set(letter);
-      }
-      return number < 0;
-    });
+    if (letter) {
+      if (!ALPHA.includes(letter)) throw new Error(letter);
+      if (number > 0 && !this.letters.includes(letter)) return false;
+    }
+    for (const clue of this.#values) {
+      if (clue.code !== number) continue;
+      const isSameCharacter = clue.char === letter;
+      clue.set(letter);
+      if (number > 0) continue;
+      if (!isSameCharacter) break;
+      return false;
+    }
     return true;
   }
 
