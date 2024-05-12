@@ -69,7 +69,7 @@ document.addEventListener('keydown', (event) => {
 window.addEventListener('popstate', processURL)
 
 function getChar(event) {
-  const key = event.key;
+  const { key } = event;
   switch (key) {
     case 'Escape': {
       removeClass('selected');
@@ -88,6 +88,12 @@ function getChar(event) {
     case 'Delete':
     case ' ':
       return '';
+    case 'ArrowLeft':
+      selectNext(true);
+      return;
+    case 'ArrowRight':
+      selectNext(false);
+      return;
     default:
       return key.toLowerCase();
   }
@@ -108,6 +114,7 @@ function selectNext(reverse = false) {
   const modifier = reverse ? -2 : (index === length ? -length : 0);
   const next = index + modifier;
   elements.at(next)?.classList.add('selected');
+  updateKeyboard();
 }
 
 function newWordGroup() {
