@@ -1,6 +1,6 @@
-import Puzzle from './Puzzle.js?v=2';
-import { updateKeyboard } from './game.js?v=1';
-import { removeClass } from './utils.js?v=1';
+import Puzzle from './Puzzle.js';
+import { updateKeyboard } from './game.js';
+import { removeClass } from './utils.js';
 
 const tileContent = document.querySelector('#tile').innerHTML;
 

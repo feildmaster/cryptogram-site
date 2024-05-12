@@ -1,5 +1,5 @@
-import Clue from './Clue.js?v=2';
-import Tile from './Tile.js?v=2';
+import Clue from './Clue.js';
+import Tile from './Tile.js';
 
 const ALPHA = 'abcdefghijklmnopqrstuvwxyz'.split('');
 

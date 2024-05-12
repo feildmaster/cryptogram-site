@@ -5,11 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "node bundle.js",
     "deploy": "firebase deploy --only hosting -m",
+    "pretest": "npm run build",
     "test": "firebase hosting:channel:deploy test",
     "start": "firebase emulators:start"
   },
   "keywords": [],
   "author": "feildmaster",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "0.21.1",
+    "firebase-tools": "^13.8.3"
+  }
 }

@@ -35,10 +35,12 @@
         displayError(`${error.message}\n${error.stack}`);
       });
     </script>
-    <script type="module" src="/modules/game.js?v=1"></script>
 
-    <link href="/css/style.css?v=2" media="screen" rel="stylesheet"/>
-    <link href="/css/keyboard.css?v=2" media="screen" rel="stylesheet"/>
+    <link href="/css/style.css" media="screen" rel="stylesheet"/>
+    <link href="/css/keyboard.css" media="screen" rel="stylesheet"/>
+
+    <script src="/modules/game.js" type="module"></script>
+    <script src="/cryptogram.js?v=4" defer></script>
   </head>
   <body>
     <header>
