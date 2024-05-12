@@ -3,16 +3,16 @@ const keys = [
     ...'1234567890-'.split(''),
   ],
   [
-    ...'QWERTYUIOP'.split(''),
+    ...'qwertyuiop'.split(''),
     'Backspace',
   ],
   [
     //'Tab',
-    ...'ASDFGHJKL'.split(''),
+    ...'asdfghjkl'.split(''),
   ],
   [
     'Shift',
-    ...'ZXCVBNM'.split(''),
+    ...'zxcvbnm'.split(''),
     'Enter',
   ],
 ];

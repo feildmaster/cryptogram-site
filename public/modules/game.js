@@ -150,7 +150,7 @@ export function updateKeyboard() {
   } else {
     const validLetters = current.letters;
     document.querySelectorAll('.keyboard button:not([data-special])').forEach((el) => {
-      const key = el.dataset.key.toLowerCase();
+      const key = el.dataset.key;
       el.disabled = !validLetters.includes(key);
     });
   }
