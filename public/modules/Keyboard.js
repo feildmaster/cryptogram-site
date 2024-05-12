@@ -27,7 +27,9 @@ function makeButton(key) {
   if (key === 'Shift') {
     button.classList.toggle('active', shiftKey);
   }
-  button.dataset.special = button.innerText !== key;
+  if (button.innerText !== key) {
+    button.dataset.special = '';
+  }
   button.tabIndex = -1;
   button.addEventListener('click', onClick);
   return button;

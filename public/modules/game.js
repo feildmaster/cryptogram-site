@@ -13,11 +13,13 @@ let current;
 
 function load(rawPuzzle = '', guesses = []) {
   // TODO: Validate puzzle? No guesses for characters in puzzle.
+  // TODO: rawPuzzle.replaceAll(/\//g, '\n').matchAll(/([a-z]+|-?\d+|[^,\/\s]|,$)/gmi);
   const clues = rawPuzzle.split(/[\/;]/)
     .map((word) => word.split(',')
       .map((clue) => {
         const num = Number(clue);
-        if (Number.isInteger(num) && num <= 26) {
+        // Cryptogram uses 27, so... we'll allow 30 "cyphers"
+        if (Number.isInteger(num) && num <= 30) {
           return num;
         }
         return clue;
@@ -40,6 +42,7 @@ function load(rawPuzzle = '', guesses = []) {
       word.append(container);
     }
   });
+  updateKeyboard();
 }
 
 document.addEventListener('keydown', (event) => {
@@ -57,9 +60,10 @@ document.addEventListener('keydown', (event) => {
   if (!set) return;
 
   updateUrlParams(current.mapping());
-  if (shiftKey) {
+  if (shiftKey && char) { // Don't skip on delete
     selectNext();
   }
+  updateKeyboard();
 });
 
 window.addEventListener('popstate', processURL)
@@ -75,7 +79,7 @@ function getChar(event) {
       event.preventDefault();
       // fallthrough
     case 'Enter': {
-      selectNext(event.shiftKey);
+      selectNext(event.shiftKey && event.isTrusted);
       return;
     }
     case 'Shift':
@@ -130,6 +134,26 @@ function processURL() {
 function updateUrlParams(search) {
   const params = `${new URLSearchParams(search)}`
   history.pushState(null, undefined, params ? `?${params}` : location.pathname);
+}
+
+export function updateKeyboard() {
+  document.querySelectorAll('.keyboard button:disabled')
+    .forEach((el) => {
+      el.disabled = false;
+    });
+  // all valid if "?"
+  const char = document.querySelector('.tile.selected')?._tile.isUnknown;
+  if (char) {
+    if (char !== '_') {
+      document.querySelector(`.keyboard button[data-key="${char}"]`).disabled = true;
+    }
+  } else {
+    const validLetters = current.letters;
+    document.querySelectorAll('.keyboard button:not([data-special])').forEach((el) => {
+      const key = el.dataset.key.toLowerCase();
+      el.disabled = !validLetters.includes(key);
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', processURL);

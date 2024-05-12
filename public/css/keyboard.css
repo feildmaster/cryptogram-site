@@ -40,3 +40,8 @@
 .keyboard-row button:last-child {
   margin: 0;
 }
+.keyboard button:disabled {
+  background-color: rgba(87, 112, 122, 0.44);
+  color: rgba(0, 0, 0, 0.35);
+  cursor: not-allowed;
+}

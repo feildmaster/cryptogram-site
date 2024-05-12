@@ -1,4 +1,5 @@
 import Puzzle from './Puzzle.js?v=2';
+import { updateKeyboard } from './game.js?v=1';
 import { removeClass } from './utils.js?v=1';
 
 const tileContent = document.querySelector('#tile').innerHTML;
@@ -37,6 +38,13 @@ export default class Tile {
 
   get isSpace() {
     return this.#clue.char === ' ';
+  }
+
+  get isUnknown() {
+    if (this.#clue.code < 0) {
+      return this.#clue.char;
+    }
+    return false;
   }
 
   set(char) {
@@ -89,4 +97,5 @@ function onClick() {
   if (this.classList.contains('selected')) return;
   removeClass('selected');
   this.classList.add('selected');
+  updateKeyboard();
 }
