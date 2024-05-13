@@ -1,6 +1,6 @@
-import './Keyboard.js';
 import Puzzle from './Puzzle.js';
 import { removeClass } from './utils.js';
+import './Keyboard.js';
 
 /**
  * @type {HTMLDivElement}
@@ -12,7 +12,6 @@ const board = document.querySelector('#board');
 let current;
 
 function load(rawPuzzle = '', guesses = []) {
-  // TODO: Validate puzzle? No guesses for characters in puzzle.
   // TODO: rawPuzzle.replaceAll(/\//g, '\n').matchAll(/([a-z]+|-?\d+|[^,\/\s]|,$)/gmi);
   const clues = rawPuzzle.split(/[\/;]/)
     .map((word) => word.split(',')
@@ -135,7 +134,7 @@ function processURL() {
   if (!rawPuzzle) return;
   params.delete('puzzle');
 
-  load(rawPuzzle, [...params.entries()]);
+  load(decodeURIComponent(rawPuzzle), [...params.entries()]);
 }
 
 function updateUrlParams(search) {
