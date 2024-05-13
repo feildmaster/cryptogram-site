@@ -13,9 +13,9 @@ export default class Puzzle {
   #clues = new Set();
 
   constructor(clues = [], guesses = []) {
-    clues.forEach((word = [], index) => {
-      if (!word.length || word[0] === 0) return;
-      if (index) {
+    clues.forEach((word = []) => {
+      if (!word || word[0] === 0) return;
+      if (this.length) {
         this.#clues.add(new Clue(' '));
       }
       word.forEach((clue) => this.#clues.add(new Clue(clue)));
