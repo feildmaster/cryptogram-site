@@ -62,7 +62,7 @@ export default class Clue {
     if (!symbol) throw new Error(symbol);
     if (this.char === symbol || this.char.length > 1) return;
     this.#isLocked();
-    this.#char = symbol;
+    this.#char = symbol.toLowerCase();
     // Dispatch event
     this.#locked = EVENT_NAME;
     this.#eventManager.dispatchEvent(UPDATE_EVENT);
