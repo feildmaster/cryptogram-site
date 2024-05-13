@@ -12,10 +12,11 @@ const board = document.querySelector('#board');
 let current;
 
 function load(rawPuzzle = '', guesses = []) {
-  // TODO: rawPuzzle.replaceAll(/\//g, '\n').matchAll(/([a-z]+|-?\d+|[^,\/\s]|,$)/gmi);
-  const clues = rawPuzzle.split(/[\/;]/)
-    .map((word) => word.split(',')
-      .map((clue) => {
+  // Ideally I could do this without so much mapping, but I'm lazy
+  const clues = rawPuzzle.split(/[\/; ]/)
+    .map((word) => word.length && [...word.matchAll(/(\[.*\]|[a-z]|[+-]?\d+|[^,\s]|.$)/gmi)]
+      .map(([, clue]) => {
+        if (!clue?.length) return false;
         const num = Number(clue);
         // Cryptogram uses 27, so... we'll allow 30 "cyphers"
         if (Number.isInteger(num) && num <= 30) {

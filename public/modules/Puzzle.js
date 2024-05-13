@@ -21,12 +21,13 @@ export default class Puzzle {
       word.forEach((clue) => this.#clues.add(new Clue(clue)));
     });
     if (!this.length) return;
+    const { numbers } = this; // cache numbers, this can't change
     guesses.forEach(([num, char]) => {
       const number = Number(num);
       if (
         !Number.isInteger(number) ||
         typeof char !== 'string' ||
-        !this.numbers.includes(number) || (
+        !numbers.includes(number) || (
           number > 0 &&
           !this.letters.includes(char)
         )
