@@ -14,12 +14,12 @@ let current;
 function load(rawPuzzle = '', guesses = []) {
   // Ideally I could do this without so much mapping, but I'm lazy
   const clues = rawPuzzle.split(/[\/; ]/)
-    .map((word) => word.length && [...word.matchAll(/(\[.*\]|[a-z]|[+-]?\d+|[^,\s]|.$)/gmi)]
+    .map((word) => word.length && [...word.matchAll(/(\[.*\]|[a-z]|[1-2]\d|-?[1-9]|[^,\s]|\d+|.$)/gmi)]
       .map(([, clue]) => {
         if (!clue?.length) return false;
         const num = Number(clue);
-        // Cryptogram uses 27, so... we'll allow 30 "cyphers"
-        if (Number.isInteger(num) && num <= 30) {
+        // Cryptogram uses 27, so... we'll allow 1<>29 "cyphers"
+        if (Number.isInteger(num) && num < 30) {
           return num;
         }
         return clue;
@@ -62,8 +62,10 @@ document.addEventListener('keydown', (event) => {
   updateUrlParams(current.mapping());
   if (shiftKey && char) { // Don't skip on delete
     selectNext();
+  } else {
+    // Select next also updates keyboard, so don't call it twice
+    updateKeyboard();
   }
-  updateKeyboard();
 });
 
 window.addEventListener('popstate', processURL)
@@ -106,6 +108,7 @@ function selectNext(reverse = false) {
   if (!selected) {
     const next = reverse ? length - 1 : 0;
     elements.at(next).classList.add('selected');
+    updateKeyboard();
     return;
   }
   selected.classList.remove('selected');
