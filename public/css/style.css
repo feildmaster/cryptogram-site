@@ -24,6 +24,7 @@ body > header {
   border: 1px solid var(--foreground);
   font-family: monospace;
   margin: 10px auto;
+  overflow-x: auto;
   width: 95%;
   font-size: 5em;
   text-align: center;
