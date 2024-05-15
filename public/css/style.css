@@ -58,3 +58,8 @@ body > header {
 .clickable {
   cursor: pointer;
 }
+@media screen and (max-width: 800px) {
+  .board {
+    font-size: 3em;
+  }
+}
