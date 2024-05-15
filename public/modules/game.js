@@ -1,3 +1,4 @@
+import '../resources/pollyfill.js';
 import Puzzle from './Puzzle.js';
 import { removeClass } from './utils.js';
 import './Keyboard.js';
