@@ -6,7 +6,7 @@
   max-width: 500px;
   background-color: var(--background);
 }
-.keyboard:not(.extended) div:first-child {
+.keyboard:not(.extended) > div:first-child {
   display: none;
 }
 /* Row */
@@ -44,4 +44,10 @@
   background-color: rgba(87, 112, 122, 0.44);
   color: rgba(0, 0, 0, 0.35);
   cursor: not-allowed;
+}
+.keyboard .spacer {
+  flex: 0.5;
+}
+.keyboard [data-key^="Arrow"] {
+  font-size: 3em;
 }

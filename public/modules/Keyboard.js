@@ -7,20 +7,33 @@ const keys = [
     'Backspace',
   ],
   [
+    'Spacer',
     //'Tab',
     ...'asdfghjkl'.split(''),
+    'Spacer',
   ],
   [
-    'Shift',
+    //'Shift',
+    'ArrowLeft',
     ...'zxcvbnm'.split(''),
-    'Enter',
+    //'Enter',
+    'ArrowRight',
   ],
 ];
 
 const keyboard = document.createElement('div');
 let shiftKey = false;
 
+function makeSpacer() {
+  const div = document.createElement('div');
+  div.classList.add('spacer');
+  return div;
+}
+
 function makeButton(key) {
+  if (key === 'Spacer') {
+    return makeSpacer();
+  }
   const button = document.createElement('button');
   button.dataset.key = key;
   button.innerText = getLabel(key);
@@ -74,6 +87,10 @@ function getLabel(key) {
     case 'Backspace':
     case 'Delete':
       return '←';
+    case 'ArrowLeft':
+      return '⇤';
+    case 'ArrowRight':
+      return '⇥';
     default:
       return key;
   }
