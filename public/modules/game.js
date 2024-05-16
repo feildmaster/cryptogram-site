@@ -44,6 +44,7 @@ function load(rawPuzzle = '', guesses = []) {
     }
   });
   updateKeyboard();
+  board.dataset.ready = '';
 }
 
 document.addEventListener('keydown', (event) => {
