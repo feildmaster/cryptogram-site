@@ -19,6 +19,9 @@ body > header {
   flex-direction: row;
   align-items: center;
 }
+a {
+  color: rgb(240, 248, 255);
+}
 /* Game Board */
 .board {
   border: 1px solid var(--foreground);
