@@ -47,60 +47,38 @@ function load(rawPuzzle = '', guesses = []) {
   board.dataset.ready = '';
 }
 
-document.addEventListener('keydown', (event) => {
-  if (!current) return;
-  const {
-    ctrlKey,
-    repeat,
-    shiftKey,
-  } = event;
-  if (ctrlKey) return;
-  const char = getChar(event);
-  if (repeat || typeof char !== 'string' || char.length > 1) return;
-
-  const set = document.querySelector('.selected')?._tile.set(char);
-  if (!set) return;
-
-  updateUrlParams(current.mapping());
-  if (shiftKey && char) { // Don't skip on delete
-    selectNext();
-  } else {
-    // Select next also updates keyboard, so don't call it twice
-    updateKeyboard();
-  }
-});
-
-window.addEventListener('popstate', processURL)
-
 function getChar(event) {
   const { key } = event;
   switch (key) {
     case 'Escape': {
       removeClass('selected');
-      return;
+      updateKeyboard();
+      break;
     }
     case 'Tab':
       event.preventDefault();
       // fallthrough
     case 'Enter': {
       selectNext(event.shiftKey && event.isTrusted);
-      return;
+      break;
     }
     case 'Shift':
-      return;
+      // Do nothing
+      break;
     case 'Backspace':
     case 'Delete':
     case ' ':
       return '';
     case 'ArrowLeft':
       selectNext(true);
-      return;
+      break;
     case 'ArrowRight':
       selectNext(false);
-      return;
+      break;
     default:
       return key.toLowerCase();
   }
+  return undefined;
 }
 
 function selectNext(reverse = false) {
@@ -109,8 +87,7 @@ function selectNext(reverse = false) {
   const length = elements.length;
   if (!selected) {
     const next = reverse ? length - 1 : 0;
-    elements.at(next).classList.add('selected');
-    updateKeyboard();
+    select(elements.at(next));
     return;
   }
   selected.classList.remove('selected');
@@ -118,7 +95,11 @@ function selectNext(reverse = false) {
   if (!index) return;
   const modifier = reverse ? -2 : (index === length ? -length : 0);
   const next = index + modifier;
-  elements.at(next)?.classList.add('selected');
+  select(elements.at(next));
+}
+
+function select(element) {
+  element?.classList.add('selected');
   updateKeyboard();
 }
 
@@ -168,4 +149,30 @@ export function updateKeyboard() {
   }
 }
 
+document.addEventListener('keydown', (event) => {
+  if (!current) return;
+  const {
+    ctrlKey,
+    repeat,
+    shiftKey,
+  } = event;
+  if (ctrlKey) return;
+  const char = getChar(event);
+  if (repeat || typeof char !== 'string' || char.length > 1) return;
+
+  const set = document.querySelector('.selected')?._tile.set(char);
+  if (!set) return;
+
+  updateUrlParams(current.mapping());
+  if (shiftKey && char) { // Don't skip on delete
+    selectNext();
+  } else {
+    // Select next also updates keyboard, so don't call it twice
+    updateKeyboard();
+  }
+});
+
 document.addEventListener('DOMContentLoaded', processURL);
+
+// TODO: Update board rather than creating a new puzzle
+window.addEventListener('popstate', processURL);
