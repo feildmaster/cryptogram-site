@@ -6,6 +6,11 @@ export default class Clue {
     return '_';
   }
   static #uniqueId = -1;
+  static { // TODO: remove me when puzzle updates rather than recreates
+    window.addEventListener('popstate', () => {
+      this.#uniqueId = -1;
+    });
+  }
 
   #eventManager = document.createElement('div');
   #locked;
