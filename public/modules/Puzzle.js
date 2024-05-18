@@ -27,10 +27,8 @@ export default class Puzzle {
       if (
         !Number.isInteger(number) ||
         typeof char !== 'string' ||
-        !numbers.includes(number) || (
-          number > 0 &&
-          !this.letters.includes(char)
-        )
+        !numbers.includes(number) ||
+        (number > 0 ? !this.letters.includes(char) : !ALPHA.includes(char))
       ) return;
       this.set(number, char);
     });
